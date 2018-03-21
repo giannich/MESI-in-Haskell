@@ -5,7 +5,9 @@ module DataTypes
     Cache(..),
     CacheUnit(..),
     MemUnit(..),
-    State(..)
+    State(..),
+    Instruction(..),
+    InstructionType(..)
 ) where 
 
 data Machine = Machine {memory :: Memory,
