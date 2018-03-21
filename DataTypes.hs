@@ -2,32 +2,26 @@ module DataTypes
 (
     Machine(..),
     Memory(..),
+    MemUnit(..),
     Cache(..),
     CacheUnit(..),
-    MemUnit(..),
     State(..),
     Instruction(..),
     InstructionType(..)
 ) where 
 
-data Machine = Machine {memory :: Memory,
-                        caches :: [Cache]}
-                        deriving (Eq, Show)
-
-data Memory = Memory {memList :: [MemUnit]}
-                      deriving (Eq)
+type Memory = [MemUnit]
+type MemUnit = (Int, Int)
+type Machine = (Memory, [Cache])
 
 data Cache = Cache {cacheNum :: Int,
                     cacheList :: [CacheUnit]}
                     deriving (Eq)
 
 data CacheUnit = CacheUnit {state :: State,
-                            cMemUnit :: MemUnit} 
+                            address :: Int,
+                            value :: Int} 
                             deriving (Eq)
-
-data MemUnit = MemUnit {address :: Int,
-                        value :: Int}
-                        deriving (Eq)
 
 data State = M | E | S | I deriving (Eq, Show)
 
@@ -38,15 +32,10 @@ data Instruction = Instruction {iType :: InstructionType,
 
 data InstructionType = Read | Write deriving (Eq, Show)
 
-instance Show Memory where
-  show (Memory mList) = show mList
-
 instance Show Cache where
   show (Cache num cList) = "\nCache Number:" ++ show num ++ show cList
 
 instance Show CacheUnit where
-  show cUnit = "\nState:" ++ show (state cUnit) ++ show (cMemUnit cUnit)
-
-instance Show MemUnit where
-  show mUnit = "\nAddress:" ++ show (address mUnit) ++
-               "\nValue:" ++ show (value mUnit) ++ "\n"
+  show cUnit = "\nState:" ++ show (state cUnit) ++
+               "\nAddress:" ++ show (address cUnit) ++
+               "\nValue:" ++ show (value cUnit) ++ "\n"
